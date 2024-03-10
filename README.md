@@ -14,8 +14,9 @@ This is a simple Flutter application for browsing and discovering movies. It all
 <img src="https://github.com/Mousa-alaaldeen/movie_app/blob/master/assets/images/movie1.jpg" width="100" height="200" >
 <img src="https://github.com/Mousa-alaaldeen/movie_app/blob/master/assets/images/movie2.jpg" width="100" height="200" >
 <img src="https://github.com/Mousa-alaaldeen/movie_app/blob/master/assets/images/movie3.jpg" width="100" height="200" >
-  </div>
-  </div>
+</div>
+
+</div>
 <img src="https://github.com/Mousa-alaaldeen/movie_app/blob/master/assets/images/movie4.jpg" width="100" height="200" >
 <img src="https://github.com/Mousa-alaaldeen/movie_app/blob/master/assets/images/movie5.jpg" width="100" height="200" >
 <img src="https://github.com/Mousa-alaaldeen/movie_app/blob/master/assets/images/movie6.jpg" width="100" height="200" >
