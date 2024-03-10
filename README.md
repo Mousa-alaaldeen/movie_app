@@ -11,7 +11,7 @@ This is a simple Flutter application for browsing and discovering movies. It all
 
 ## Screenshots
 
-Include screenshots of your app here to showcase its UI.
+<img src="https://github.com/Mousa-alaaldeen/movie_app/blob/master/assets/images/movie1.jpg" width="100" >
 
 ## Installation
 
@@ -39,7 +39,6 @@ For more information about dependencies, see the `pubspec.yaml` file.
 ## Credits
 
 - This app uses the [The Movie Database (TMDb) API](https://www.themoviedb.org/documentation/api) for fetching movie data.
-
 
 ## License
 
