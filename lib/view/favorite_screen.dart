@@ -17,126 +17,120 @@ class FavoriteScreen extends GetView<HomeController> {
       child: Scaffold(
         body: GetBuilder<HomeController>(
           builder: (cont) {
-            if(cont.favoriteList.isNotEmpty) {
+            if (cont.favoriteList.isNotEmpty) {
               return Padding(
-              padding: const EdgeInsets.all(10.0),
-              child:  
-                   ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: controller.favoriteList.length,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Get.to(
-                              MovieDetailScreen(
-                              voteCount: controller
-                                  .favoriteList[index].voteCount
-                                  .toString(),
-                              movieId: controller.favoriteList[index].id!,
+                  padding: const EdgeInsets.all(10.0),
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: controller.favoriteList.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Get.to(MovieDetailScreen(
+                            voteCount: controller.favoriteList[index].voteCount
+                                .toString(),
+                            movieId: controller.favoriteList[index].id!,
+                            imageUrl:
+                                controller.favoriteList[index].backdropPath!,
+                            title:
+                                controller.favoriteList[index].originalTitle!,
+                            year: controller.favoriteList[index].releaseDate!
+                                .toString(),
+                            originalTitle:
+                                controller.favoriteList[index].originalTitle!,
+                            overview: controller.favoriteList[index].overview!,
+                            onRatingUpdate: (rating) {
+                              Get.find<HomeController>().setRate(
+                                  movieId: controller.favoriteList[index].id!,
+                                  val: rating);
+
+                              print('تم تعيين التقييم بنجاح: $rating');
+                            },
+                            initialRating:
+                                controller.favoriteList[index].voteAverage!,
+                            deleteRate: () async {
+                              try {
+                                await Get.find<HomeController>().deleteRate(
+                                  movieId: controller.favoriteList[index].id!,
+                                );
+
+                                print('تم حذف التقييم بنجاح');
+                              } catch (error) {
+                                print('حدث خطأ أثناء حذف التقييم: $error');
+                              }
+                            },
+                          ));
+                        },
+                        child: Row(
+                          children: [
+                            CachedNetworkImage(
+                              fit: BoxFit.fill,
                               imageUrl:
-                                  controller.favoriteList[index].backdropPath!,
-                              title:
-                                  controller.favoriteList[index].originalTitle!,
-                              year: controller.favoriteList[index].releaseDate!
-                                  .toString(),
-                              originalTitle:
-                                  controller.favoriteList[index].originalTitle!,
-                              overview:
-                                  controller.favoriteList[index].overview!,
-                              onRatingUpdate: (rating) {
-                                Get.find<HomeController>().setRate(
-                                    movieId: controller.favoriteList[index].id!,
-                                    val: rating);
-
-                                print('تم تعيين التقييم بنجاح: $rating');
-                              },
-                              initialRating:
-                                  controller.favoriteList[index].voteAverage!,
-                              deleteRate: () async {
-                                try {
-                                  await Get.find<HomeController>().deleteRate(
-                                    movieId: controller.favoriteList[index].id!,
-                                  );
-
-                                  print('تم حذف التقييم بنجاح');
-                                } catch (error) {
-                                  print('حدث خطأ أثناء حذف التقييم: $error');
-                                }
-                              },
-                            ));
-                          },
-                          child: Row(
-                            children: [
-                              CachedNetworkImage(
-                                fit: BoxFit.fill,
-                                imageUrl:
-                                    "$baseUrlImag${controller.favoriteList[index].backdropPath}",
-                                height: 120,
-                                width: 120,
+                                  "$baseUrlImag${controller.favoriteList[index].posterPath}",
+                              height: 120,
+                              width: 120,
+                            ),
+                            SizedBox(width: 20),
+                            Expanded(
+                              child: Text(
+                                controller.favoriteList[index].originalTitle
+                                    .toString(),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: kBoldedSubtitleTextSyule,
                               ),
-                              SizedBox(width: 20),
-                              Expanded(
-                                child: Text(
-                                  controller.favoriteList[index].originalTitle
-                                      .toString(),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: kBoldedSubtitleTextSyule,
+                            ),
+                            Spacer(),
+                            IconButton(
+                              onPressed: () {
+                                controller.setFavorite(
+                                  mediaId: controller.favoriteList[index].id!,
+                                  favorite: false,
+                                  mediaType: 'movie',
+                                );
+                              },
+                              icon: CircleAvatar(
+                                radius: 15,
+                                // backgroundColor: Get.find<HomeController>().favorites[list]?,
+                                child: Icon(
+                                  Icons.favorite,
+                                  color: Colors.white,
+                                  size: 20,
                                 ),
                               ),
-                              Spacer(),
-                              IconButton(
-                                onPressed: () {
-                                  controller.setFavorite(
-                                    mediaId: controller.favoriteList[index].id!,
-                                    favorite: false,
-                                    mediaType: 'movie',
-                                  );
-                                },
-                                icon: CircleAvatar(
-                                  radius: 15,
-                                  // backgroundColor: Get.find<HomeController>().favorites[list]?,
-                                  child: Icon(
-                                    Icons.favorite,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                      separatorBuilder: (BuildContext context, int index) =>
-                          SizedBox(height: 10),
-                    )
-                 
-            );
-            }else{
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                        SizedBox(height: 10),
+                  ));
+            } else {
               return Padding(
                 padding: const EdgeInsets.all(10),
                 child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Center(
-                            child: Text(
-                              'Favorites list is empty',
-                              style: TextStyle(
-                                fontSize: 25.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Icon(
-                            Icons.favorite_border,
-                            size: 180,
-                          ),
-                        ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text(
+                        'Favorites list is empty',
+                        style: TextStyle(
+                          fontSize: 25.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Icon(
+                      Icons.favorite_border,
+                      size: 180,
+                    ),
+                  ],
+                ),
               );
             }
           },
