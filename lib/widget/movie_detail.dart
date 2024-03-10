@@ -54,16 +54,16 @@ class MovieDetailScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: CircleAvatar(
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
-                      ),
-                    ))
+                // IconButton(
+                //     onPressed: () {
+                //       Get.back();
+                //     },
+                //     icon: CircleAvatar(
+                //       child: Icon(
+                //         Icons.arrow_back_ios,
+                //         color: Colors.white,
+                //       ),
+                //     ))
               ],
             )),
           ),
@@ -134,18 +134,25 @@ class MovieDetailScreen extends StatelessWidget {
                       style: kSubtitleTextSyule,
                     ),
                     SizedBox(
-                      width: 30,
+                      width: 20,
                     ),
                     Text(
-                      originalTitle,
-                      style: kSubtitleTextSyule,
+                      originalTitle.length > 30
+                          ? '${originalTitle.substring(0, 30)}...'
+                          : originalTitle,
+                      style: kSubtitleTextSyule.copyWith(),
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Spacer(),
                     Text("vote Count"),
                     SizedBox(
                       width: 10,
                     ),
-                    Text(voteCount.toString()),
+                    Text(
+                      voteCount.toString(),
+                      style:
+                          TextStyle(height: 2, overflow: TextOverflow.ellipsis),
+                    ),
                   ],
                 ),
                 SizedBox(

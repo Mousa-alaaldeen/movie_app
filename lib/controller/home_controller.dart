@@ -116,6 +116,7 @@ class HomeController extends GetxController {
     required bool favorite,
     required String mediaType,
   }) async {
+     favoriteList = [];
     update();
 
     return await Dio()
@@ -141,6 +142,7 @@ class HomeController extends GetxController {
           'The movie has been successfully added to favorites!',
           backgroundColor: Colors.green,
           colorText: Colors.white,
+          duration: const Duration(seconds: 1),
         );
         getFavoriteMovies();
       } else {
@@ -149,7 +151,10 @@ class HomeController extends GetxController {
           'The movie has been successfully removed from favorites!',
           backgroundColor: Colors.red,
           colorText: Colors.white,
+                    duration: const Duration(seconds: 1),
+
         );
+        getFavoriteMovies();
       }
       update();
 
@@ -162,7 +167,7 @@ class HomeController extends GetxController {
 
   Future setRate({required int movieId, required double val}) async {
     update();
-
+deleteRate(movieId: movieId);
     final jsonData = json.encode({'value': val});
 
     return await Dio()
@@ -232,7 +237,7 @@ class HomeController extends GetxController {
   }
 
   Future getFavoriteMovies() {
-    favoriteList = [];
+   
     return Dio()
         .get('${baseUrl}account/21073642/favorite/movies',
             options: Options(headers: {
@@ -248,6 +253,7 @@ class HomeController extends GetxController {
       for (var e in results!) {
         favoriteList.add(Results.fromJsonObjectModel(e));
       }
+      update();
     }).catchError((error) {
       print('Request failed with status: ${error.statusCode}');
       Get.dialog(ErrorDialogWidget());

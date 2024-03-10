@@ -69,29 +69,37 @@ class MovieListWidget extends StatelessWidget {
                                           image: NetworkImage(
                                         'https://image.tmdb.org/t/p/original/${list[index].posterPath}',
                                       ))),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      gradient: LinearGradient(
-                                        begin: Alignment.bottomCenter,
-                                        stops: [0.2, 0.9],
-                                        colors: [
-                                          Colors.black.withOpacity(0.9),
-                                          Colors.black.withOpacity(0.3),
-                                        ],
+                                  child: Stack(
+                                    alignment: Alignment.topRight,
+                                    children: [
+                                      Container(height: 175,
+                                      alignment: Alignment.bottomCenter,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20),
+                                          
+                                          gradient: LinearGradient(
+                                            begin: Alignment.bottomCenter,
+                                            stops: [0.2, 0.9],
+                                            colors: [
+                                              Colors.black.withOpacity(0.9),
+                                              Colors.black.withOpacity(0.3),
+                                            ],
+                                          ),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(15.0),
+                                          child: Text(
+                                            list[index].originalTitle ?? "",
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(15.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Align(
-                                            alignment: Alignment.topRight,
-                                            child: IconButton(
+                               IconButton(
                                               onPressed: () {
                                                 Get.find<HomeController>()
                                                     .setFavorite(
@@ -104,25 +112,13 @@ class MovieListWidget extends StatelessWidget {
                                                 radius: 15,
                                                 // backgroundColor: Get.find<HomeController>().favorites[list]?,
                                                 child: Icon(
-                                                  Icons.favorite,
+                                               Get.find<HomeController>().favoriteList.any((element) => element.id==list[index].id)?   Icons.favorite:Icons.favorite_border,
                                                   color: Colors.white,
                                                   size: 20,
                                                 ),
                                               ),
-                                            ),
-                                          ),
-                                          Text(
-                                            list[index].originalTitle ?? "",
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
+                                            )
+                                    ],
                                   ),
                                 ),
                                 SizedBox(
@@ -133,7 +129,9 @@ class MovieListWidget extends StatelessWidget {
                             ),
                           ),
                           onTap: () {
-                            Get.to(MovieDetailScreen(
+                            Get.to(
+                              MovieDetailScreen(
+                                
                               voteCount: list[index].voteCount.toString(),
                               movieId: list[index].id!,
                               imageUrl: list[index].backdropPath!,
@@ -147,7 +145,7 @@ class MovieListWidget extends StatelessWidget {
 
                                 print('تم تعيين التقييم بنجاح: $rating');
                               },
-                              initialRating: list[index].voteAverage,
+                              initialRating: list[index].voteAverage!,
                               deleteRate: () async {
                                 try {
                                   await Get.find<HomeController>().deleteRate(

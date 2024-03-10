@@ -42,7 +42,7 @@ class SearchScreen extends GetView<SearchControllerr> {
               GetBuilder<SearchControllerr>(builder: (cont) {
                 if (cont.SearchList.isNotEmpty) {
                   return Expanded(
-                    child: ListView.builder(
+                    child: ListView.separated(
                       shrinkWrap: true,
                       itemCount: controller.SearchList.length,
                       itemBuilder: (context, index) {
@@ -50,6 +50,7 @@ class SearchScreen extends GetView<SearchControllerr> {
                           onTap: () {
                             // print('00');
                             Get.to(MovieDetailScreen(
+                              
                               deleteRate: () async {
                                 try {
                                   await Get.find<HomeController>().deleteRate(
@@ -84,6 +85,7 @@ class SearchScreen extends GetView<SearchControllerr> {
                           child: Row(
                             children: [
                               CachedNetworkImage(
+                                fit: BoxFit.fill,
                                 imageUrl:
                                     "${baseUrlImag}${controller.SearchList[index].backdropPath}",
                                 height: 120,
@@ -105,10 +107,35 @@ class SearchScreen extends GetView<SearchControllerr> {
                           ),
                         );
                       },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          SizedBox(
+                        height: 10,
+                      ),
                     ),
                   );
                 } else {
-                  return Container();
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Text(
+                          'Search for movies.........',
+                          style: TextStyle(
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Icon(
+                        Icons.search,
+                        size: 180,
+                      ),
+                    ],
+                  );
                 }
               })
             ],

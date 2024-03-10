@@ -29,6 +29,8 @@ class TopRatedScreen extends GetView<TopRatedController> {
                   return InkWell(
                     onTap: () {
                       Get.to(MovieDetailScreen(
+                        
+                        voteCount: controller.list[index].voteCount.toString(),
                         movieId: controller.list[index].id!,
                         imageUrl: controller.list[index].backdropPath!,
                         title: controller.list[index].originalTitle!,
@@ -36,24 +38,23 @@ class TopRatedScreen extends GetView<TopRatedController> {
                         originalTitle: controller.list[index].originalTitle!,
                         overview: controller.list[index].overview!,
                         onRatingUpdate: (rating) {
-                          controller.setRate(
-                              movieId: controller.list[index].id!,
-                              value: rating);
+                          Get.find<HomeController>().setRate(
+                              movieId: controller.list[index].id!, val: rating);
 
                           print('تم تعيين التقييم بنجاح: $rating');
                         },
-                        initialRating: controller.list[index].voteAverage,
+                        initialRating: controller.list[index].voteAverage!,
                         deleteRate: () async {
                           try {
                             await Get.find<HomeController>().deleteRate(
                               movieId: controller.list[index].id!,
                             );
+
                             print('تم حذف التقييم بنجاح');
                           } catch (error) {
                             print('حدث خطأ أثناء حذف التقييم: $error');
                           }
                         },
-                        voteCount: controller.list[index].voteCount.toString(),
                       ));
                     },
                     child: Row(
